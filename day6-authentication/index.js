@@ -1,7 +1,10 @@
+const express = require("express");
 const jwt = require("jsonwebtoken");
 const jwtPassword = "secret";
 const zod = require("zod");
 
+const app = express();
+app.use(express.json());
 const usernameSchema = zod.string().email();
 const passwordSchema = zod.string().min(6);
 const secret = jwtPassword;
@@ -17,9 +20,6 @@ const secret = jwtPassword;
  *                        the password does not meet the length requirement.
  */
 function signJwt(username, password) {
-  // Your code here
-  const usernameResponse = usernameSchema.safeParse(username);
-  const passwordResponse = passwordSchema.safeParse(password);
   if (!usernameResponse.success || !passwordResponse.success) {
     return null;
   }
@@ -59,9 +59,21 @@ function decodeJwt(token) {
   return tokenResponse ? true : false;
 }
 
-module.exports = {
-  signJwt,
-  verifyJwt,
-  decodeJwt,
-  jwtPassword,
-};
+app.post("/login", (req, res) => {
+  const usernameResponse = usernameSchema.safeParse(req.body.email);
+  const passwordResponse = passwordSchema.safeParse(req.body.password);
+  if (!usernameResponse.success || !passwordResponse.success) {
+    res.status(411).json({ message: "Wrong input" });
+  } else {
+    const token = jwt.sign(usernameResponse.data, passwordResponse.data);
+    if (token) {
+      res.json({ token: token });
+    } else {
+      res.status(401).json({ message: "You are not authorized" });
+    }
+  }
+});
+
+app.listen(3000, (req, res) => {
+  console.log("App is running on port 3000");
+});
