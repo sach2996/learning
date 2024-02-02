@@ -1,0 +1,27 @@
+<html>
+  <script>
+    function popuplateDiv() {
+      const element = document.getElementById("finalSum");
+      element.innerHTML =
+        parseInt(document.getElementById("firstNumber").value) +
+        parseInt(document.getElementById("secondNumber").value);
+    }
+  </script>
+  <body>
+    <div>
+      <input
+        id="firstNumber"
+        type="text"
+        placeholder="Enter number"
+      /><br /><br />
+      <input
+        id="secondNumber"
+        type="text"
+        placeholder="Enter number"
+      /><br /><br />
+      <button type="button" onclick="popuplateDiv()">Calculate Sum</button
+      ><br /><br />
+      <div id="finalSum"></div>
+    </div>
+  </body>
+</html>
