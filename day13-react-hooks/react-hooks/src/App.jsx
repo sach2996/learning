@@ -116,7 +116,7 @@ function App() {
     </div>
   );
 }
-
+//memo doesnt work for functions as memo check for value difference and not for reference
 const Demo = memo(function ({ a }) {
   console.log("rerender");
   return <div>hi</div>;
