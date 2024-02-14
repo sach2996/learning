@@ -1,10 +1,13 @@
-import { useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import { Dashboard } from "./components/Dashboard";
-import { Landing } from "./components/Landing";
+// import { Dashboard } from "./components/Dashboard";
+
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 // import './App.css'
+//Lazy loading
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const Landing = lazy(() => import("./components/Landing"));
 
 function App() {
   return (
@@ -12,8 +15,22 @@ function App() {
       <BrowserRouter>
         <Appbar />
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/" element={<Landing />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Suspense fallback="loading...">
+                <Dashboard />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <Suspense fallback="loading...">
+                <Landing />
+              </Suspense>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
