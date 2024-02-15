@@ -4,7 +4,7 @@ import {
   useRecoilValue,
   useSetRecoilState,
 } from "recoil";
-import { countAtom } from "./store/atoms/count";
+import { countAtom, notifications } from "./store/atoms/count";
 import { evenSelector } from "./count.selector";
 function App() {
   return (
@@ -20,6 +20,7 @@ function Count() {
   console.log("using re-render");
   return (
     <>
+      <Notifications />
       <CountRenderer />
       <Buttons />
       <EvenOdd />
@@ -58,5 +59,18 @@ function Buttons() {
 function EvenOdd() {
   const isEven = useRecoilValue(evenSelector);
   return <div>{isEven ? "It is even" : null}</div>;
+}
+
+function Notifications() {
+  const [networkNotications, setNetworkNotications] =
+    useRecoilState(notifications);
+  return (
+    <div>
+      <button>My network ({networkNotications.network})</button>
+      <button>Jobs ({networkNotications.jobs})</button>
+      <button>Messaging ({networkNotications.messaging})</button>
+      <button>Notifications ({networkNotications.notifications})</button>
+    </div>
+  );
 }
 export default App;
