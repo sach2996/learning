@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  "mongodb+srv://2996sach:Sachin@12@cluster0.3av4b8k.mongodb.net/paytm"
+  "mongodb+srv://sachin:Sachin@cluster0.3av4b8k.mongodb.net/paytm"
 );
 // Classic Solution
 // const UserSchema = new mongoose.Schema({
@@ -14,7 +14,7 @@ mongoose.connect(
 //Elegant Solution
 
 const UserSchema = new mongoose.Schema({
-  userName: {
+  username: {
     type: String,
     required: true,
     unique: true,
