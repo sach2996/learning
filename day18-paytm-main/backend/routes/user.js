@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../config");
 const zod = require("zod");
 const userRouter = require("./user");
-const { User } = require("../db");
+const { User, Account } = require("../db");
+const { authMiddleware } = require("./middeware");
 
 const signupBody = zod.object({
   username: zod.string().email(),
@@ -35,7 +36,12 @@ router.post("/signup", async (req, res) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
     });
+
     const userId = user._id;
+    await Account.create({
+      userId: userId,
+      balance: 1 + Math.random() * 10000,
+    });
     const jwtToken = jwt.sign({ userId }, JWT_SECRET);
 
     return res.json({
@@ -72,6 +78,57 @@ router.post("/signin", async (req, res) => {
       message: "Error while logging in",
     });
   }
+});
+
+const userUpdateBody = zod.object({
+  firstName: zod.string().optional(),
+  lastName: zod.string().optional(),
+  password: zod.string().optional(),
+});
+router.put("/", authMiddleware, async (req, res) => {
+  const { success } = userUpdateBody.safeParse(req.body);
+  if (!success) {
+    res.status(411).json({
+      message: "Error while updating information",
+    });
+  }
+  const user = await User.updateOne({ _id: req.userId }, req.body);
+  if (user) {
+    res.json({
+      message: "Updated successfully",
+    });
+  } else {
+    res.status(411).json({
+      message: "Error while updating information",
+    });
+  }
+});
+
+router.get("/bulk", async (req, res) => {
+  const filter = req.query.filter || "";
+
+  const users = await User.find({
+    $or: [
+      {
+        firstName: {
+          $regex: filter,
+        },
+      },
+      {
+        lastName: {
+          $regex: filter,
+        },
+      },
+    ],
+  });
+  res.json({
+    user: users.map((user) => ({
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      _id: user._id,
+    })),
+  });
 });
 
 module.exports = router;

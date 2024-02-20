@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-mongoose.connect(
-  "mongodb+srv://sachin:Sachin@cluster0.3av4b8k.mongodb.net/paytm"
-);
+mongoose.connect(process.env.CONNECTTION_STRING);
 // Classic Solution
 // const UserSchema = new mongoose.Schema({
 //   username: String,
@@ -41,6 +40,20 @@ const UserSchema = new mongoose.Schema({
   },
 });
 const User = mongoose.model("User", UserSchema);
+
+const AccountSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to User model
+    ref: "User",
+    required: true,
+  },
+  balance: {
+    type: Number,
+    required: true,
+  },
+});
+const Account = mongoose.model("Account", accountSchema);
 module.exports = {
   User,
+  Account,
 };
