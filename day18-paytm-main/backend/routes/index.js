@@ -7,4 +7,6 @@ const { User } = require("../db");
 
 router.use("/user", userRouter);
 
+router.use();
+
 module.exports = router;
