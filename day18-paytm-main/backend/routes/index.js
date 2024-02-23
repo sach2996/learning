@@ -9,6 +9,4 @@ router.use("/user", userRouter);
 
 // router.use();
 
-//test
-
 module.exports = router;
