@@ -1,5 +1,4 @@
-import { Hono, Next } from "hono";
-import { Context } from "hono/jsx";
+import { Hono } from "hono";
 
 const app = new Hono();
 
