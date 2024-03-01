@@ -14,8 +14,8 @@ app.use(async (c, next) => {
 app.post("/", async (c) => {
   const body = await c.req.parseBody();
   console.log(body);
-  console.log(c.req.header("Authorization"));
-  console.log(c.req.query("param"));
+  // console.log(c.req.header("Authorization"));
+  // console.log(c.req.query("param"));
 
   return c.json({ msg: "as" });
 });
