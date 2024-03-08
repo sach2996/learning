@@ -1,3 +1,5 @@
+//advance apis in typescript
+
 interface User {
   id: string;
   name: string;
