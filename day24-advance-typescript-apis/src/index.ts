@@ -53,5 +53,3 @@ const handleEvent = (event: ExcludeEvent) => {
   console.log(`Handling event: ${event}`);
 };
 handleEvent("click");
-
-console.log("Typescritp advanced apis");
