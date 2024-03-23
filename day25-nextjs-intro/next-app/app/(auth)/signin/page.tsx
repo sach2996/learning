@@ -44,7 +44,7 @@ function LabelledInput({ label, placeholder, type }: LabelledInputType) {
   return (
     <div>
       <label className="block mb-2 text-sm text-black font-semibold pt-4">
-        {label}
+        {/* {label} */}
       </label>
       <input
         type={type || "text"}
